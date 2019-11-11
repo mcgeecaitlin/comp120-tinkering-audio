@@ -16,3 +16,6 @@ navigating the user interface and configuring the game’s settings. This should
 be somewhat consistent across the interface, but the tones and samples
 should be modified in a systematic way to indicate success or failure. A variety
 of settings should be made available and configurable by a designer.
+
+# MIT License
+We have chosen to license our work using the MIT license. This license has been chosen because we feel comfortable with others using our code to use in their own software commercially. We understand and consent to the use and modification of our code whether this is done publicly or privately.
