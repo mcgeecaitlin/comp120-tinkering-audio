@@ -1,6 +1,7 @@
 # COMP120 Tinkering Audio
 
-# Contract 3 - Melody Generation
+# Contract 3 - Melody Generation, Caitlin Mcgee
+
 You are tasked with creating a tool which procedurally generates and exports
 a music track for the game. It will be important to research some rules to see
 which tones and samples go well with each other to design the synthesiser. An
@@ -9,7 +10,7 @@ is up to you as the developer, but should fit the creativity card brief and the
 style of your particular game, but is anticipated to be somewhat simplistic and
 retro.
 
-# Contract 4 - User Interface Audio
+# Contract 4 - User Interface Audio, Callum Metcalfe
 You need to develop a tool to generate audio for the user interface. These
 should be short tones to feed back to the player that they are successfully
 navigating the user interface and configuring the game’s settings. This should
