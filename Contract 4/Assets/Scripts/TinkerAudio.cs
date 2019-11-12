@@ -40,9 +40,9 @@ public class TinkerAudio : MonoBehaviour
     // Private 
     private AudioClip CreateToneAudioClip(int frequency)
     {
-        int sampleDurationSecs = 10;
+        float sampleDurationSecs = 0.3f;
         int sampleRate = 44100;
-        int sampleLength = sampleRate * sampleDurationSecs;
+        int sampleLength = Mathf.FloorToInt(sampleRate * sampleDurationSecs);
         float maxValue = 1f / 4f;
 
         var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
