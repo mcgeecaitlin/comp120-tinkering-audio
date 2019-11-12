@@ -18,4 +18,4 @@ should be modified in a systematic way to indicate success or failure. A variety
 of settings should be made available and configurable by a designer.
 
 # MIT License
-We have chosen to license our work using the MIT license. This license has been chosen because we feel comfortable with others using our code to use in their own software commercially. We understand and consent to the use and modification of our code whether this is done publicly or privately.
+We have chosen to license our work using the MIT license. This license has been chosen because we feel comfortable with others using our code to use in their own software commercially. We understand and consent to the use and modification of our code whether this is done publicly or privately. If our code is used then the MIT licence provided has to also be included in the project as well as stating our authorship into it. The reason we are using the MIT licence is that it can help people in the open source community whilst also retaining our authorship of the code.
