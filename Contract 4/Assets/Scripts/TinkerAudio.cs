@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-//using NaughtyAttributes;
+﻿//using NaughtyAttributes;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,21 +11,36 @@ public class TinkerAudio : MonoBehaviour
 {
     private AudioSource audioSource;
     private AudioClip outAudioClip;
-    public int frequency;
+    private int currentFrequency;
+    public int maxFrequency;
+
+    [SerializeField]
+    private Slider frequencySlider;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        currentFrequency = maxFrequency;
+        frequencySlider.value = 1;
         audioSource = GetComponent<AudioSource>();
-        
+    }
+
+    private void Update()
+    {
+        SliderFrequency();
+    }
+
+    public void SliderFrequency()
+    {
+        currentFrequency = Mathf.RoundToInt(frequencySlider.value * maxFrequency); 
     }
 
 
     // Public APIs
     public void PlayOutAudio()
     {
-        outAudioClip = CreateToneAudioClip(frequency);
+        outAudioClip = CreateToneAudioClip(currentFrequency);
         audioSource.PlayOneShot(outAudioClip);
     }
 
@@ -40,7 +54,7 @@ public class TinkerAudio : MonoBehaviour
     // Private 
     private AudioClip CreateToneAudioClip(int frequency)
     {
-        float sampleDurationSecs = 0.3f;
+        float sampleDurationSecs = 0.2f;
         int sampleRate = 44100;
         int sampleLength = Mathf.FloorToInt(sampleRate * sampleDurationSecs);
         float maxValue = 1f / 4f;
@@ -59,7 +73,7 @@ public class TinkerAudio : MonoBehaviour
         return audioClip;
     }
 
-    private void IncreaseVolume()
+    private void ChangeVolume()
     {
 
     }
