@@ -9,13 +9,20 @@ using TMPro;
 public class TinkerAudio : MonoBehaviour
 {
     private AudioSource audioSource;
-    private AudioClip outAudioClip;
-    private int currentFrequency;
+    private AudioClip failAudioClip;
+    private AudioClip successAudioClip;
+    private int currentFailFrequency;
+    private int currentSuccessFreqency;
     public int maxFrequency;
-    public TextMeshProUGUI frequencyText;
+    public TextMeshProUGUI failFrequencyText;
+    public TextMeshProUGUI successFrequencyText;
+
 
     [SerializeField]
-    private Slider frequencySlider;
+    private Slider failFrequencySlider;
+
+    [SerializeField]
+    private Slider successFrequencySlider;
 
     /// <summary>
     /// Sets the starting frequency to the max frequency allowed
@@ -25,23 +32,34 @@ public class TinkerAudio : MonoBehaviour
 
     private void Start()
     {
-        currentFrequency = maxFrequency;
-        frequencySlider.value = 1;
+
+        currentFailFrequency = maxFrequency;
+        currentSuccessFreqency = maxFrequency;
+        failFrequencySlider.value = 1;
+        successFrequencySlider.value = 1;
+
         audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-        SliderFrequency();
+        FailSliderFrequency();
+        SuccessSliderFrequency();
     }
 
     /// <summary>
     /// Uses the slider to update the frequency variable
     /// </summary>
-    public void SliderFrequency()
+    public void FailSliderFrequency()
     {
-        currentFrequency = Mathf.RoundToInt(frequencySlider.value * maxFrequency);
-        frequencyText.text = "Frequency: " + currentFrequency.ToString();
+        currentFailFrequency = Mathf.RoundToInt(failFrequencySlider.value * maxFrequency);
+        failFrequencyText.text = "Frequency: " + currentFailFrequency.ToString();
+    }
+
+    public void SuccessSliderFrequency()
+    {
+        currentSuccessFreqency = Mathf.RoundToInt(successFrequencySlider.value * maxFrequency);
+        successFrequencyText.text = "Frequency: " + currentSuccessFreqency.ToString();
     }
 
 
@@ -50,12 +68,17 @@ public class TinkerAudio : MonoBehaviour
     /// After the audioclip has been generated it will then play the audio clip that was preduced
     /// when the button is clicked
     /// </summary>
-    public void PlayOutAudio()
+    public void PlayFailTone()
     {
-        outAudioClip = CreateToneAudioClip(currentFrequency);
-        audioSource.PlayOneShot(outAudioClip);
+        failAudioClip = CreateFailToneAudioClip(currentFailFrequency);
+        audioSource.PlayOneShot(failAudioClip);
     }
 
+    public void PlaySuccessTone()
+    {
+        successAudioClip = CreateSuccessToneAudioClip(currentSuccessFreqency);
+        audioSource.PlayOneShot(successAudioClip);
+    }
 
     public void StopAudio()
     {
@@ -73,7 +96,7 @@ public class TinkerAudio : MonoBehaviour
     /// <returns>
     /// The audio clip to be used for the button
     /// </returns>
-    private AudioClip CreateToneAudioClip(int frequency)
+    private AudioClip CreateFailToneAudioClip(int frequency)
     {
         float sampleDurationSecs = 0.2f;
         int sampleRate = 44100;
@@ -94,9 +117,25 @@ public class TinkerAudio : MonoBehaviour
         return audioClip;
     }
 
-    private void ChangeVolume()
+    private AudioClip CreateSuccessToneAudioClip(int frequency)
     {
+        float sampleDurationSecs = 0.2f;
+        int sampleRate = 44100;
+        int sampleLength = Mathf.FloorToInt(sampleRate * sampleDurationSecs);
+        float maxValue = 1f / 4f;
 
+        var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
+
+        float[] samples = new float[sampleLength];
+        for (var i = 0; i < sampleLength; i++)
+        {
+            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)sampleRate));
+            float v = s * maxValue;
+            samples[i] = v;
+        }
+
+        audioClip.SetData(samples, 0);
+        return audioClip;
     }
 
 }
