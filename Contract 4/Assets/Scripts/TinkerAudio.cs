@@ -16,13 +16,21 @@ public class TinkerAudio : MonoBehaviour
     public int maxFrequency;
     public TextMeshProUGUI failFrequencyText;
     public TextMeshProUGUI successFrequencyText;
-
+    public int maxSampleRate;
+    private int currentFailSampleRate;
+    private int currectSuccessSampleRate;
 
     [SerializeField]
     private Slider failFrequencySlider;
 
     [SerializeField]
     private Slider successFrequencySlider;
+
+    [SerializeField]
+    private Slider successSampleRateSlider;
+
+    [SerializeField]
+    private Slider failSampleRateSlider;
 
     /// <summary>
     /// Sets the starting frequency to the max frequency allowed
@@ -32,11 +40,17 @@ public class TinkerAudio : MonoBehaviour
 
     private void Start()
     {
-
+        // Sets up the frequency sliders
         currentFailFrequency = maxFrequency;
         currentSuccessFreqency = maxFrequency;
         failFrequencySlider.value = 1;
         successFrequencySlider.value = 1;
+
+        //sets up the sample rate sliders
+        currentFailSampleRate = maxSampleRate;
+        currectSuccessSampleRate = maxSampleRate;
+        successSampleRateSlider.value = 1;
+        failSampleRateSlider.value = 1;
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -45,6 +59,8 @@ public class TinkerAudio : MonoBehaviour
     {
         FailSliderFrequency();
         SuccessSliderFrequency();
+        FailSliderSampleRate();
+        SuccessSliderSampleRate();
     }
 
     /// <summary>
@@ -60,6 +76,17 @@ public class TinkerAudio : MonoBehaviour
     {
         currentSuccessFreqency = Mathf.RoundToInt(successFrequencySlider.value * maxFrequency);
         successFrequencyText.text = "Frequency: " + currentSuccessFreqency.ToString();
+    }
+
+    public void FailSliderSampleRate()
+    {
+        currentFailSampleRate = Mathf.RoundToInt(failSampleRateSlider.value * maxSampleRate);
+
+    }
+
+    public void SuccessSliderSampleRate()
+    {
+        currectSuccessSampleRate = Mathf.RoundToInt(successSampleRateSlider.value * maxSampleRate);
     }
 
 
