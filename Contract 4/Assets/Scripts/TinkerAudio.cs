@@ -9,16 +9,27 @@ using TMPro;
 public class TinkerAudio : MonoBehaviour
 {
     private AudioSource audioSource;
+    // The Success and Fail audio clips
     private AudioClip failAudioClip;
     private AudioClip successAudioClip;
+    // Variables for frequency
+    public int maxFrequency;
     private int currentFailFrequency;
     private int currentSuccessFreqency;
-    public int maxFrequency;
     public TextMeshProUGUI failFrequencyText;
     public TextMeshProUGUI successFrequencyText;
+    // Variables for samplerate
     public int maxSampleRate;
     private int currentFailSampleRate;
     private int currectSuccessSampleRate;
+    public TextMeshProUGUI failSampleRateText;
+    public TextMeshProUGUI successSampleRateText;
+    // Variables for duration
+    public float maxDurationSecs;
+    private float currentSuccessSampleDurationSecs;
+    private float currentFailSampleDurationSecs;
+    public TextMeshProUGUI failDurationText;
+    public TextMeshProUGUI successDurationText;
 
     [SerializeField]
     private Slider failFrequencySlider;
@@ -31,6 +42,12 @@ public class TinkerAudio : MonoBehaviour
 
     [SerializeField]
     private Slider failSampleRateSlider;
+
+    [SerializeField]
+    private Slider durationSuccessSlider;
+
+    [SerializeField]
+    private Slider durationFailSlider;
 
     /// <summary>
     /// Sets the starting frequency to the max frequency allowed
@@ -46,21 +63,35 @@ public class TinkerAudio : MonoBehaviour
         failFrequencySlider.value = 1;
         successFrequencySlider.value = 1;
 
-        //sets up the sample rate sliders
+        // Sets up the sample rate sliders
         currentFailSampleRate = maxSampleRate;
         currectSuccessSampleRate = maxSampleRate;
         successSampleRateSlider.value = 1;
         failSampleRateSlider.value = 1;
+
+        // Sets up the duartion sliders
+        currentFailSampleDurationSecs = maxDurationSecs;
+        currentSuccessSampleDurationSecs = maxDurationSecs;
+        durationFailSlider.value = 1;
+        durationSuccessSlider.value = 1;
 
         audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
+        // Checks for updates to the frequency sliders
         FailSliderFrequency();
         SuccessSliderFrequency();
+
+        // Checks for updates to the samplerate sliders
         FailSliderSampleRate();
         SuccessSliderSampleRate();
+
+        // Checks for updates to the duration sliders
+        FailSliderDuration();
+        SuccessSliderDuration();
+
     }
 
     /// <summary>
@@ -81,13 +112,30 @@ public class TinkerAudio : MonoBehaviour
     public void FailSliderSampleRate()
     {
         currentFailSampleRate = Mathf.RoundToInt(failSampleRateSlider.value * maxSampleRate);
-
+        failSampleRateText.text = "Sample rate: " + currentFailSampleRate.ToString();
     }
 
     public void SuccessSliderSampleRate()
     {
         currectSuccessSampleRate = Mathf.RoundToInt(successSampleRateSlider.value * maxSampleRate);
+        successSampleRateText.text = "Sample rate: " + currectSuccessSampleRate.ToString();
     }
+
+    public void FailSliderDuration()
+    {
+        currentFailSampleDurationSecs = durationFailSlider.value * maxDurationSecs;
+        currentFailSampleDurationSecs = Mathf.Round(currentFailSampleDurationSecs * 100) / 100;
+        failDurationText.text = "Duration: " + currentFailSampleDurationSecs.ToString();
+    }
+
+    public void SuccessSliderDuration()
+    {
+        currentSuccessSampleDurationSecs = durationSuccessSlider.value * maxDurationSecs;
+        currentSuccessSampleDurationSecs = Mathf.Round(currentSuccessSampleDurationSecs * 100) / 100;
+        successDurationText.text = "Duration: " + currentSuccessSampleDurationSecs.ToString();
+    }
+
+
 
 
     /// <summary>
@@ -125,17 +173,15 @@ public class TinkerAudio : MonoBehaviour
     /// </returns>
     private AudioClip CreateFailToneAudioClip(int frequency)
     {
-        float sampleDurationSecs = 0.2f;
-        int sampleRate = 44100;
-        int sampleLength = Mathf.FloorToInt(sampleRate * sampleDurationSecs);
+        int sampleLength = Mathf.FloorToInt(currentFailSampleRate * currentFailSampleDurationSecs);
         float maxValue = 1f / 4f;
 
-        var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
+        var audioClip = AudioClip.Create("tone", sampleLength, 1, currentFailSampleRate, false);
 
         float[] samples = new float[sampleLength];
         for (var i = 0; i < sampleLength; i++)
         {
-            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)sampleRate));
+            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)currentFailSampleRate));
             float v = s * maxValue;
             samples[i] = v;
         }
@@ -146,17 +192,15 @@ public class TinkerAudio : MonoBehaviour
 
     private AudioClip CreateSuccessToneAudioClip(int frequency)
     {
-        float sampleDurationSecs = 0.2f;
-        int sampleRate = 44100;
-        int sampleLength = Mathf.FloorToInt(sampleRate * sampleDurationSecs);
+        int sampleLength = Mathf.FloorToInt(currectSuccessSampleRate * currentSuccessSampleDurationSecs);
         float maxValue = 1f / 4f;
 
-        var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
+        var audioClip = AudioClip.Create("tone", sampleLength, 1, currectSuccessSampleRate, false);
 
         float[] samples = new float[sampleLength];
         for (var i = 0; i < sampleLength; i++)
         {
-            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)sampleRate));
+            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)currectSuccessSampleRate));
             float v = s * maxValue;
             samples[i] = v;
         }
