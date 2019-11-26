@@ -83,82 +83,40 @@ public class TinkerAudio : MonoBehaviour
     private void Update()
     {
         // Checks for updates to the frequency sliders
-        FailSliderFrequency();
-        SuccessSliderFrequency();
-
-        // Checks for updates to the samplerate sliders
-        FailSliderSampleRate();
-        SuccessSliderSampleRate();
-
-        // Checks for updates to the duration sliders
-        FailSliderDuration();
-        SuccessSliderDuration();
-
+        SliderUpdater();
     }
 
     /// <summary>
-    /// Uses the slider to update the frequency of the sound
-    /// Also updates the text field to include the current frequency
+    /// Sets all the sliders to their max value as well as setting all the current values to their max
     /// </summary>
-    public void FailSliderFrequency()
+    public void SliderUpdater()
     {
-        currentFailFrequency = Mathf.RoundToInt(failFrequencySlider.value * maxFrequency);
+        // Fail Frequency
+        currentFailFrequency = Mathf.RoundToInt(failFrequencySlider.value * maxFrequency);  // Rounds the value to a full integer
         failFrequencyText.text = "Frequency: " + currentFailFrequency.ToString();
-    }
 
-    /// <summary>
-    /// Uses the slider to update the frequency of the sound
-    /// Also updates the text field to include the current frequency
-    /// </summary>
-    public void SuccessSliderFrequency()
-    {
-        currentSuccessFreqency = Mathf.RoundToInt(successFrequencySlider.value * maxFrequency);
+        // Success Frequency
+        currentSuccessFreqency = Mathf.RoundToInt(successFrequencySlider.value * maxFrequency);  // Rounds the value to a full integer
         successFrequencyText.text = "Frequency: " + currentSuccessFreqency.ToString();
-    }
 
-    /// <summary>
-    /// Uses the slider to update the sample rate
-    /// Also updates the text field for the sample rate to include the current sample rate
-    /// </summary>
-    public void FailSliderSampleRate()
-    {
-        currentFailSampleRate = Mathf.RoundToInt(failSampleRateSlider.value * maxSampleRate);
+        // Fail SampleRate
+        currentFailSampleRate = Mathf.RoundToInt(failSampleRateSlider.value * maxSampleRate); // Rounds the value to a full integer
         failSampleRateText.text = "Sample rate: " + currentFailSampleRate.ToString();
-    }
 
-    /// <summary>
-    /// Uses the slider to update the sample rate
-    /// Also updates the text field for the sample rate to include the current sample rate
-    /// </summary>
-    public void SuccessSliderSampleRate()
-    {
-        currectSuccessSampleRate = Mathf.RoundToInt(successSampleRateSlider.value * maxSampleRate);
+        //Success SampleRate
+        currectSuccessSampleRate = Mathf.RoundToInt(successSampleRateSlider.value * maxSampleRate);  // Rounds the value to a full integer
         successSampleRateText.text = "Sample rate: " + currectSuccessSampleRate.ToString();
-    }
 
-    /// <summary>
-    /// Uses the slider to change the duration of the sound
-    /// Also updates the text field to show the current duration
-    /// </summary>
-    public void FailSliderDuration()
-    {
+        //Fail Duration
         currentFailSampleDurationSecs = failDurationSlider.value * maxDurationSecs;
-        currentFailSampleDurationSecs = Mathf.Round(currentFailSampleDurationSecs * 100) / 100;
+        currentFailSampleDurationSecs = Mathf.Round(currentFailSampleDurationSecs * 100) / 100;  // Rounds the duation to 2 decimal places
         failDurationText.text = "Duration: " + currentFailSampleDurationSecs.ToString();
-    }
 
-    /// <summary>
-    /// Uses the slider to change the duration of the sound
-    /// Also updates the text field to show the current duration
-    /// </summary>
-    public void SuccessSliderDuration()
-    {
+        // Success Duration
         currentSuccessSampleDurationSecs = successDurationSlider.value * maxDurationSecs;
-        currentSuccessSampleDurationSecs = Mathf.Round(currentSuccessSampleDurationSecs * 100) / 100;
+        currentSuccessSampleDurationSecs = Mathf.Round(currentSuccessSampleDurationSecs * 100) / 100;  // Rounds the duation to 2 decimal places
         successDurationText.text = "Duration: " + currentSuccessSampleDurationSecs.ToString();
     }
-
-
 
 
     /// <summary>
@@ -211,7 +169,7 @@ public class TinkerAudio : MonoBehaviour
         var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
 
         float[] samples = new float[sampleLength];
-        for (var i = 0; i < sampleLength; i++)
+        for (int i = 0; i < sampleLength; i++)
         {
             float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)sampleRate));
             float v = s * maxValue;
@@ -245,7 +203,7 @@ public class TinkerAudio : MonoBehaviour
         var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
 
         float[] samples = new float[sampleLength];
-        for (var i = 0; i < sampleLength; i++)
+        for (int i = 0; i < sampleLength; i++)
         {
             float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)sampleRate));
             float v = s * maxValue;
