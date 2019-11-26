@@ -57,7 +57,6 @@ public class TinkerAudio : MonoBehaviour
     /// Whilst also setting the slider to be at its max value 
     /// so that when the slider is moved it represents what the variable actually is
     /// </summary>
-
     private void Start()
     {
         // Sets up the frequency sliders
@@ -192,9 +191,15 @@ public class TinkerAudio : MonoBehaviour
     /// <summary>
     /// Generates a sound from a sine wave by using different values
     /// </summary>
-    /// <param name="frequency"></param>
-    /// <param name="duration"></param>
-    /// <param name="sampleRate"></param>
+    /// <param name="frequency">
+    /// used to set the frequency of the sound played
+    /// </param>
+    /// <param name="duration">
+    /// used to set the duation of the sound played
+    /// </param>
+    /// <param name="sampleRate">
+    /// used to set the sample rate of the sound played
+    /// </param>
     /// <returns>
     /// The audio clip to be used for the fail button
     /// </returns>
@@ -220,9 +225,15 @@ public class TinkerAudio : MonoBehaviour
     /// <summary>
     /// Generates a sound from a sine wave by using different values
     /// </summary>
-    /// <param name="frequency"></param>
-    /// <param name="duration"></param>
-    /// <param name="sampleRate"></param>
+    /// <param name="frequency">
+    /// used to set the frequency of the sound played
+    /// </param>
+    /// <param name="duration">
+    /// used to set the duation of the sound played
+    /// </param>
+    /// <param name="sampleRate">
+    /// used to set the sample rate of the sound played
+    /// </param>
     /// <returns>
     /// The audio clip to be used for the success button
     /// </returns>
