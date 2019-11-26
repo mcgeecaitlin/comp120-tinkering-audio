@@ -31,28 +31,31 @@ public class TinkerAudio : MonoBehaviour
     public TextMeshProUGUI failDurationText;
     public TextMeshProUGUI successDurationText;
 
+    // Frequency sliders
     [SerializeField]
     private Slider failFrequencySlider;
 
     [SerializeField]
     private Slider successFrequencySlider;
 
+    // Sample rate sliders
     [SerializeField]
     private Slider successSampleRateSlider;
 
     [SerializeField]
     private Slider failSampleRateSlider;
 
+    // Duration sliders
     [SerializeField]
-    private Slider durationSuccessSlider;
+    private Slider successDurationSlider;
 
     [SerializeField]
-    private Slider durationFailSlider;
+    private Slider failDurationSlider;
 
     /// <summary>
-    /// Sets the starting frequency to the max frequency allowed
+    /// Sets all the changing variables to their max value
     /// Whilst also setting the slider to be at its max value 
-    /// so that when the slider is moved it represents what the current frequency is
+    /// so that when the slider is moved it represents what the variable actually is
     /// </summary>
 
     private void Start()
@@ -72,8 +75,8 @@ public class TinkerAudio : MonoBehaviour
         // Sets up the duartion sliders
         currentFailSampleDurationSecs = maxDurationSecs;
         currentSuccessSampleDurationSecs = maxDurationSecs;
-        durationFailSlider.value = 1;
-        durationSuccessSlider.value = 1;
+        failDurationSlider.value = 1;
+        successDurationSlider.value = 1;
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -95,7 +98,8 @@ public class TinkerAudio : MonoBehaviour
     }
 
     /// <summary>
-    /// Uses the slider to update the frequency variable
+    /// Uses the slider to update the frequency of the sound
+    /// Also updates the text field to include the current frequency
     /// </summary>
     public void FailSliderFrequency()
     {
@@ -103,34 +107,54 @@ public class TinkerAudio : MonoBehaviour
         failFrequencyText.text = "Frequency: " + currentFailFrequency.ToString();
     }
 
+    /// <summary>
+    /// Uses the slider to update the frequency of the sound
+    /// Also updates the text field to include the current frequency
+    /// </summary>
     public void SuccessSliderFrequency()
     {
         currentSuccessFreqency = Mathf.RoundToInt(successFrequencySlider.value * maxFrequency);
         successFrequencyText.text = "Frequency: " + currentSuccessFreqency.ToString();
     }
 
+    /// <summary>
+    /// Uses the slider to update the sample rate
+    /// Also updates the text field for the sample rate to include the current sample rate
+    /// </summary>
     public void FailSliderSampleRate()
     {
         currentFailSampleRate = Mathf.RoundToInt(failSampleRateSlider.value * maxSampleRate);
         failSampleRateText.text = "Sample rate: " + currentFailSampleRate.ToString();
     }
 
+    /// <summary>
+    /// Uses the slider to update the sample rate
+    /// Also updates the text field for the sample rate to include the current sample rate
+    /// </summary>
     public void SuccessSliderSampleRate()
     {
         currectSuccessSampleRate = Mathf.RoundToInt(successSampleRateSlider.value * maxSampleRate);
         successSampleRateText.text = "Sample rate: " + currectSuccessSampleRate.ToString();
     }
 
+    /// <summary>
+    /// Uses the slider to change the duration of the sound
+    /// Also updates the text field to show the current duration
+    /// </summary>
     public void FailSliderDuration()
     {
-        currentFailSampleDurationSecs = durationFailSlider.value * maxDurationSecs;
+        currentFailSampleDurationSecs = failDurationSlider.value * maxDurationSecs;
         currentFailSampleDurationSecs = Mathf.Round(currentFailSampleDurationSecs * 100) / 100;
         failDurationText.text = "Duration: " + currentFailSampleDurationSecs.ToString();
     }
 
+    /// <summary>
+    /// Uses the slider to change the duration of the sound
+    /// Also updates the text field to show the current duration
+    /// </summary>
     public void SuccessSliderDuration()
     {
-        currentSuccessSampleDurationSecs = durationSuccessSlider.value * maxDurationSecs;
+        currentSuccessSampleDurationSecs = successDurationSlider.value * maxDurationSecs;
         currentSuccessSampleDurationSecs = Mathf.Round(currentSuccessSampleDurationSecs * 100) / 100;
         successDurationText.text = "Duration: " + currentSuccessSampleDurationSecs.ToString();
     }
@@ -139,19 +163,24 @@ public class TinkerAudio : MonoBehaviour
 
 
     /// <summary>
-    /// This calls the function CreateToneAudioClip, giving it a value for the frequency
+    /// This calls the function CreateFailToneAudioClip, giving it the required values that are needed to generate the sound
     /// After the audioclip has been generated it will then play the audio clip that was preduced
-    /// when the button is clicked
+    /// when the fail button is clicked
     /// </summary>
     public void PlayFailTone()
     {
-        failAudioClip = CreateFailToneAudioClip(currentFailFrequency);
+        failAudioClip = CreateFailToneAudioClip(currentFailFrequency, currentFailSampleDurationSecs, currentFailSampleRate);
         audioSource.PlayOneShot(failAudioClip);
     }
 
+    /// <summary>
+    /// This calls the function CreateSuccessToneAudioClip, giving it the required values that are needed to generate the sound
+    /// After the audioclip has been generated it will then play the audio clip that was preduced
+    /// when the success button is clicked
+    /// </summary>
     public void PlaySuccessTone()
     {
-        successAudioClip = CreateSuccessToneAudioClip(currentSuccessFreqency);
+        successAudioClip = CreateSuccessToneAudioClip(currentSuccessFreqency, currentSuccessSampleDurationSecs, currectSuccessSampleRate);
         audioSource.PlayOneShot(successAudioClip);
     }
 
@@ -160,28 +189,26 @@ public class TinkerAudio : MonoBehaviour
         audioSource.Stop();
     }
 
-
     /// <summary>
-    /// Within this funtion it sets the duration of the audio clip to be 0.2 seconds
-    /// It will then set the sample rate to be 44100
-    /// As the duation is set to a float it needs to be rounded when * by the sample rate to get the sample length
-    /// This is then used to get the levels of sound from a sine wave.
+    /// Generates a sound from a sine wave by using different values
     /// </summary>
     /// <param name="frequency"></param>
+    /// <param name="duration"></param>
+    /// <param name="sampleRate"></param>
     /// <returns>
-    /// The audio clip to be used for the button
+    /// The audio clip to be used for the fail button
     /// </returns>
-    private AudioClip CreateFailToneAudioClip(int frequency)
+    private AudioClip CreateFailToneAudioClip(int frequency, float duration, int sampleRate)
     {
-        int sampleLength = Mathf.FloorToInt(currentFailSampleRate * currentFailSampleDurationSecs);
+        int sampleLength = Mathf.FloorToInt(sampleRate * duration);
         float maxValue = 1f / 4f;
 
-        var audioClip = AudioClip.Create("tone", sampleLength, 1, currentFailSampleRate, false);
+        var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
 
         float[] samples = new float[sampleLength];
         for (var i = 0; i < sampleLength; i++)
         {
-            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)currentFailSampleRate));
+            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)sampleRate));
             float v = s * maxValue;
             samples[i] = v;
         }
@@ -190,17 +217,26 @@ public class TinkerAudio : MonoBehaviour
         return audioClip;
     }
 
-    private AudioClip CreateSuccessToneAudioClip(int frequency)
+    /// <summary>
+    /// Generates a sound from a sine wave by using different values
+    /// </summary>
+    /// <param name="frequency"></param>
+    /// <param name="duration"></param>
+    /// <param name="sampleRate"></param>
+    /// <returns>
+    /// The audio clip to be used for the success button
+    /// </returns>
+    private AudioClip CreateSuccessToneAudioClip(int frequency, float duration, int sampleRate)
     {
-        int sampleLength = Mathf.FloorToInt(currectSuccessSampleRate * currentSuccessSampleDurationSecs);
+        int sampleLength = Mathf.FloorToInt(sampleRate * duration);
         float maxValue = 1f / 4f;
 
-        var audioClip = AudioClip.Create("tone", sampleLength, 1, currectSuccessSampleRate, false);
+        var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
 
         float[] samples = new float[sampleLength];
         for (var i = 0; i < sampleLength; i++)
         {
-            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)currectSuccessSampleRate));
+            float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)sampleRate));
             float v = s * maxValue;
             samples[i] = v;
         }
