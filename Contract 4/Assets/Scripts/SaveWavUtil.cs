@@ -50,7 +50,7 @@ public static class SaveWavUtil {
             filename += ".wav";
         }
 
-        var filepath = Path.Combine(Application.persistentDataPath, filename);
+        var filepath = Path.Combine("D:/comp120-tinkering-audio/Contract 4/Assets/AudioClips", filename);
 
         // Make sure directory exists if user is saving to sub dir.
         Directory.CreateDirectory(Path.GetDirectoryName(filepath));

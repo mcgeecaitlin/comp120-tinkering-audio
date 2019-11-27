@@ -1,7 +1,4 @@
-﻿
-
-//using NaughtyAttributes;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -9,73 +6,80 @@ using TMPro;
 public class TinkerAudio : MonoBehaviour
 {
     private AudioSource audioSource;
-    // The Success and Fail audio clips
+    [Header("Audio clips")]
     private AudioClip failAudioClip;
     private AudioClip successAudioClip;
-    // Variables for frequency
+    [Header("Frequency")]
     public int maxFrequency;
-    private int currentFailFrequency;
-    private int currentSuccessFreqency;
+    private int failCurrentFrequency;
+    private int successCurrentFreqency;
     public TextMeshProUGUI failFrequencyText;
     public TextMeshProUGUI successFrequencyText;
-    // Variables for samplerate
+    [Header("Sample rate")]
     public int maxSampleRate;
-    private int currentFailSampleRate;
-    private int currectSuccessSampleRate;
+    private int failCurrentSampleRate;
+    private int successCurrectSampleRate;
     public TextMeshProUGUI failSampleRateText;
     public TextMeshProUGUI successSampleRateText;
-    // Variables for duration
+    [Header("Duration")]
     public float maxDurationSecs;
-    private float currentSuccessSampleDurationSecs;
-    private float currentFailSampleDurationSecs;
+    private float failCurrentSampleDurationSecs;
+    private float successCurrentSampleDurationSecs;
     public TextMeshProUGUI failDurationText;
     public TextMeshProUGUI successDurationText;
+    [Header("Volume")]
+    public TextMeshProUGUI volumeText;
 
-    // Frequency sliders
+    [Header("Sliders")]
     [SerializeField]
     private Slider failFrequencySlider;
 
     [SerializeField]
     private Slider successFrequencySlider;
 
-    // Sample rate sliders
     [SerializeField]
     private Slider successSampleRateSlider;
 
     [SerializeField]
     private Slider failSampleRateSlider;
 
-    // Duration sliders
     [SerializeField]
     private Slider successDurationSlider;
 
     [SerializeField]
     private Slider failDurationSlider;
 
+    [SerializeField]
+    private Slider volumeSlider;
+
+
+
     /// <summary>
-    /// Sets all the changing variables to their max value
-    /// Whilst also setting the slider to be at its max value 
-    /// so that when the slider is moved it represents what the variable actually is
+    /// Sets up all the values for the sliders so that they are their max value
+    /// This makes sure that the user can here a sound as soon as the user starts the project
     /// </summary>
     private void Start()
     {
         // Sets up the frequency sliders
-        currentFailFrequency = maxFrequency;
-        currentSuccessFreqency = maxFrequency;
+        failCurrentFrequency = maxFrequency;
+        successCurrentFreqency = maxFrequency;
         failFrequencySlider.value = 1;
         successFrequencySlider.value = 1;
 
         // Sets up the sample rate sliders
-        currentFailSampleRate = maxSampleRate;
-        currectSuccessSampleRate = maxSampleRate;
+        failCurrentSampleRate = maxSampleRate;
+        successCurrectSampleRate = maxSampleRate;
         successSampleRateSlider.value = 1;
         failSampleRateSlider.value = 1;
 
         // Sets up the duartion sliders
-        currentFailSampleDurationSecs = maxDurationSecs;
-        currentSuccessSampleDurationSecs = maxDurationSecs;
-        failDurationSlider.value = 1;
-        successDurationSlider.value = 1;
+        failCurrentSampleDurationSecs = 0.5f;
+        successCurrentSampleDurationSecs = 0.5f;
+        failDurationSlider.value = 0.25f;
+        successDurationSlider.value = 0.25f;
+
+        // Sets the volume to 50%
+        volumeSlider.value = 0.5f;
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -87,35 +91,41 @@ public class TinkerAudio : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets all the sliders to their max value as well as setting all the current values to their max
+    /// Updates all the text and properties for the audio clips when the user edits the options for the sounds
     /// </summary>
     public void SliderUpdater()
     {
         // Fail Frequency
-        currentFailFrequency = Mathf.RoundToInt(failFrequencySlider.value * maxFrequency);  // Rounds the value to a full integer
-        failFrequencyText.text = "Frequency: " + currentFailFrequency.ToString();
+        failCurrentFrequency = Mathf.RoundToInt(failFrequencySlider.value * maxFrequency);  // Rounds the value to a full integer
+        failFrequencyText.text = "Frequency: " + failCurrentFrequency.ToString();
 
         // Success Frequency
-        currentSuccessFreqency = Mathf.RoundToInt(successFrequencySlider.value * maxFrequency);  // Rounds the value to a full integer
-        successFrequencyText.text = "Frequency: " + currentSuccessFreqency.ToString();
+        successCurrentFreqency = Mathf.RoundToInt(successFrequencySlider.value * maxFrequency);  // Rounds the value to a full integer
+        successFrequencyText.text = "Frequency: " + successCurrentFreqency.ToString();
 
         // Fail SampleRate
-        currentFailSampleRate = Mathf.RoundToInt(failSampleRateSlider.value * maxSampleRate); // Rounds the value to a full integer
-        failSampleRateText.text = "Sample rate: " + currentFailSampleRate.ToString();
+        failCurrentSampleRate = Mathf.RoundToInt(failSampleRateSlider.value * maxSampleRate); // Rounds the value to a full integer
+        failSampleRateText.text = "Sample rate: " + failCurrentSampleRate.ToString();
 
         //Success SampleRate
-        currectSuccessSampleRate = Mathf.RoundToInt(successSampleRateSlider.value * maxSampleRate);  // Rounds the value to a full integer
-        successSampleRateText.text = "Sample rate: " + currectSuccessSampleRate.ToString();
+        successCurrectSampleRate = Mathf.RoundToInt(successSampleRateSlider.value * maxSampleRate);  // Rounds the value to a full integer
+        successSampleRateText.text = "Sample rate: " + successCurrectSampleRate.ToString();
 
         //Fail Duration
-        currentFailSampleDurationSecs = failDurationSlider.value * maxDurationSecs;
-        currentFailSampleDurationSecs = Mathf.Round(currentFailSampleDurationSecs * 100) / 100;  // Rounds the duation to 2 decimal places
-        failDurationText.text = "Duration: " + currentFailSampleDurationSecs.ToString();
+        failCurrentSampleDurationSecs = failDurationSlider.value * maxDurationSecs;
+        failCurrentSampleDurationSecs = Mathf.Round(failCurrentSampleDurationSecs * 100) / 100;  // Rounds the duation to 2 decimal places
+        failDurationText.text = "Duration: " + failCurrentSampleDurationSecs.ToString();
 
         // Success Duration
-        currentSuccessSampleDurationSecs = successDurationSlider.value * maxDurationSecs;
-        currentSuccessSampleDurationSecs = Mathf.Round(currentSuccessSampleDurationSecs * 100) / 100;  // Rounds the duation to 2 decimal places
-        successDurationText.text = "Duration: " + currentSuccessSampleDurationSecs.ToString();
+        successCurrentSampleDurationSecs = successDurationSlider.value * maxDurationSecs;
+        successCurrentSampleDurationSecs = Mathf.Round(successCurrentSampleDurationSecs * 100) / 100;  // Rounds the duation to 2 decimal places
+        successDurationText.text = "Duration: " + successCurrentSampleDurationSecs.ToString();
+
+        // Volume
+        audioSource.volume = volumeSlider.value;
+        audioSource.volume = Mathf.Round(audioSource.volume * 10) / 10;  // Rounds the volume to 1 deciaml places
+        volumeText.text = " Master volume: " + audioSource.volume.ToString();
+
     }
 
 
@@ -126,7 +136,7 @@ public class TinkerAudio : MonoBehaviour
     /// </summary>
     public void PlayFailTone()
     {
-        failAudioClip = CreateFailToneAudioClip(currentFailFrequency, currentFailSampleDurationSecs, currentFailSampleRate);
+        failAudioClip = CreateFailToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
         audioSource.PlayOneShot(failAudioClip);
     }
 
@@ -137,13 +147,25 @@ public class TinkerAudio : MonoBehaviour
     /// </summary>
     public void PlaySuccessTone()
     {
-        successAudioClip = CreateSuccessToneAudioClip(currentSuccessFreqency, currentSuccessSampleDurationSecs, currectSuccessSampleRate);
+        successAudioClip = CreateSuccessToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
         audioSource.PlayOneShot(successAudioClip);
     }
 
     public void StopAudio()
     {
         audioSource.Stop();
+    }
+
+    public void SaveFailAudio()
+    {
+        failAudioClip = CreateFailToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        SaveWavUtil.Save("Fail Audio Clip", failAudioClip);
+    }
+
+    public void SaveSuccessAudio()
+    {
+        successAudioClip = CreateSuccessToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        SaveWavUtil.Save("Success Audio Clip", successAudioClip);
     }
 
     /// <summary>
