@@ -36,4 +36,5 @@ sysinfo.txt
 *.unitypackage
 
 # Audio clips
-AudioClips/
+*.wav
+*.wav.meta
