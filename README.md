@@ -1,16 +1,14 @@
 # COMP120 Tinkering Audio
 
-# Contract 3 - Melody Generation, Caitlin Mcgee
+# Contract 1 - Sound Effect Generation (Caitlin McGee)
 
-You are tasked with creating a tool which procedurally generates and exports
-a music track for the game. It will be important to research some rules to see
-which tones and samples go well with each other to design the synthesiser. An
-ability to draw upon both tones and samples is expected! The style of music
-is up to you as the developer, but should fit the creativity card brief and the
-style of your particular game, but is anticipated to be somewhat simplistic and
-retro.
+You are currently been tasked with creating a tool which will generate sound
+effects, these should consist of sequences of tone as well as sample manipulations.
+The sound effect should be clearly tied to an action the player makes in
+the game (e.g., picking up an item, attacking, walking over a trap, or so on).
+An element of procedurality is expected to vary the tones.
 
-# Contract 4 - User Interface Audio, Callum Metcalfe
+# Contract 4 - User Interface Audio (Callum Metcalfe)
 You need to develop a tool to generate audio for the user interface. These
 should be short tones to feed back to the player that they are successfully
 navigating the user interface and configuring the game’s settings. This should
