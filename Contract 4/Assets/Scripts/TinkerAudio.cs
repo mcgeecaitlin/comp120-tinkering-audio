@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using TMPro;
 
-
 public class TinkerAudio : MonoBehaviour
 {
     private AudioSource audioSource;
@@ -52,7 +51,8 @@ public class TinkerAudio : MonoBehaviour
     [SerializeField]
     private Slider volumeSlider;
 
-
+    [SerializeField]
+    private TMP_Dropdown waveOptions;
 
     /// <summary>
     /// Sets up all the values for the sliders so that they are their max value
@@ -86,6 +86,8 @@ public class TinkerAudio : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(waveOptions.value);
+
         // Checks for updates to the frequency sliders
         SliderUpdater();
     }
@@ -123,10 +125,11 @@ public class TinkerAudio : MonoBehaviour
 
         // Volume
         audioSource.volume = volumeSlider.value;
-        audioSource.volume = Mathf.Round(audioSource.volume * 10) / 10;  // Rounds the volume to 1 deciaml places
+        audioSource.volume = Mathf.Round(audioSource.volume * 10) / 10;  // Rounds the volume to 1 decimal places
         volumeText.text = " Master volume: " + audioSource.volume.ToString();
 
     }
+
 
 
     /// <summary>
@@ -136,7 +139,18 @@ public class TinkerAudio : MonoBehaviour
     /// </summary>
     public void PlayFailTone()
     {
-        failAudioClip = CreateFailToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        if (waveOptions.value == 0)
+        {
+            failAudioClip = CreateSineWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        }
+        if (waveOptions.value == 1)
+        {
+            failAudioClip = CreateSquareWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        }
+        if (waveOptions.value == 2)
+        {
+            failAudioClip = CreateTriangleWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        }
         audioSource.PlayOneShot(failAudioClip);
     }
 
@@ -147,7 +161,18 @@ public class TinkerAudio : MonoBehaviour
     /// </summary>
     public void PlaySuccessTone()
     {
-        successAudioClip = CreateSuccessToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        if (waveOptions.value == 0)
+        {
+            successAudioClip = CreateSineWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        }
+        if (waveOptions.value == 1)
+        {
+            successAudioClip = CreateSquareWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        }
+        if (waveOptions.value == 2)
+        {
+            successAudioClip = CreateTriangleWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        }
         audioSource.PlayOneShot(successAudioClip);
     }
 
@@ -158,13 +183,35 @@ public class TinkerAudio : MonoBehaviour
 
     public void SaveFailAudio()
     {
-        failAudioClip = CreateFailToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        if (waveOptions.value == 0)
+        {
+            failAudioClip = CreateSineWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        }
+        if (waveOptions.value == 1)
+        {
+            failAudioClip = CreateSquareWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        }
+        if (waveOptions.value == 2)
+        {
+            failAudioClip = CreateTriangleWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
+        }
         SaveWavUtil.Save("Fail Audio Clip", failAudioClip);
     }
 
     public void SaveSuccessAudio()
     {
-        successAudioClip = CreateSuccessToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        if (waveOptions.value == 0)
+        {
+            successAudioClip = CreateSineWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        }
+        if (waveOptions.value == 1)
+        {
+            successAudioClip = CreateSquareWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        }
+        if (waveOptions.value == 2)
+        {
+            successAudioClip = CreateTriangleWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        }
         SaveWavUtil.Save("Success Audio Clip", successAudioClip);
     }
 
@@ -183,7 +230,7 @@ public class TinkerAudio : MonoBehaviour
     /// <returns>
     /// The audio clip to be used for the fail button
     /// </returns>
-    private AudioClip CreateFailToneAudioClip(int frequency, float duration, int sampleRate)
+    private AudioClip CreateSineWaveToneAudioClip(int frequency, float duration, int sampleRate)
     {
         int sampleLength = Mathf.FloorToInt(sampleRate * duration);
         float maxValue = 1f / 4f;
@@ -203,21 +250,13 @@ public class TinkerAudio : MonoBehaviour
     }
 
     /// <summary>
-    /// Generates a sound from a sine wave by using different values
+    /// Should generate a square wave. However, it doesnt appear to work
     /// </summary>
-    /// <param name="frequency">
-    /// used to set the frequency of the sound played
-    /// </param>
-    /// <param name="duration">
-    /// used to set the duation of the sound played
-    /// </param>
-    /// <param name="sampleRate">
-    /// used to set the sample rate of the sound played
-    /// </param>
-    /// <returns>
-    /// The audio clip to be used for the success button
-    /// </returns>
-    private AudioClip CreateSuccessToneAudioClip(int frequency, float duration, int sampleRate)
+    /// <param name="frequency"></param>
+    /// <param name="duration"></param>
+    /// <param name="sampleRate"></param>
+    /// <returns></returns>
+    private AudioClip CreateSquareWaveToneAudioClip(int frequency, float duration, int sampleRate)
     {
         int sampleLength = Mathf.FloorToInt(sampleRate * duration);
         float maxValue = 1f / 4f;
@@ -228,12 +267,67 @@ public class TinkerAudio : MonoBehaviour
         for (int i = 0; i < sampleLength; i++)
         {
             float s = Mathf.Sin(2.0f * Mathf.PI * frequency * ((float)i / (float)sampleRate));
-            float v = s * maxValue;
-            samples[i] = v;
+            if (s > 0)
+            {
+                s = 1;
+                float v = s * maxValue;
+                samples[i] = v;
+            }
+
+            if (s < 0)
+            {
+                s = -1;
+                float v = s * maxValue;
+                samples[i] = v;
+            }
+
+            
         }
 
         audioClip.SetData(samples, 0);
         return audioClip;
     }
 
+    /// <summary>
+    /// Generates a Triangle wave
+    /// </summary>
+    /// <param name="frequency"></param>
+    /// <param name="duration"></param>
+    /// <param name="sampleRate"></param>
+    /// <returns></returns>
+    private AudioClip CreateTriangleWaveToneAudioClip(int frequency, float duration, int sampleRate)
+    {
+        int sampleLength = Mathf.FloorToInt(sampleRate * duration);
+        float maxValue = 1f / 4f;
+
+        var audioClip = AudioClip.Create("tone", sampleLength, 1, sampleRate, false);
+
+        float[] samples = new float[sampleLength];
+        for (int i = 0; i < sampleLength; i++)
+        {
+            float s = Mathf.PingPong(i * 2f * frequency / sampleRate, 1) * 2f - 1f;
+            float v = s * maxValue;
+            samples[i] = v;
+        }
+
+        audioClip.SetData(samples, 0);
+        return audioClip;
+
+        /// <summary>
+        /// Generates a sound from a sine wave by using different values
+        /// </summary>
+        /// <param name="frequency">
+        /// used to set the frequency of the sound played
+        /// </param>
+        /// <param name="duration">
+        /// used to set the duation of the sound played
+        /// </param>
+        /// <param name="sampleRate">
+        /// used to set the sample rate of the sound played
+        /// </param>
+        /// <returns>
+        /// The audio clip to be used for the success button
+        /// </returns>
+
+    }
 }
