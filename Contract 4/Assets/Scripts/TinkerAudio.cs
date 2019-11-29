@@ -131,7 +131,8 @@ public class TinkerAudio : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Calls the GetWaveType function and sets the parameters up for a fail tone to be generated
+    /// This will then play the generated tone
     /// </summary>
     public void PlayFailTone()
     {
@@ -140,7 +141,8 @@ public class TinkerAudio : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Calls the GetWaveType function and sets the parameters up for a success tone to be generated
+    /// This will then play the generated tone
     /// </summary>
     public void PlaySuccessTone()
     {
@@ -149,7 +151,8 @@ public class TinkerAudio : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Calls the GetWaveType function and sets the parameters up for a fail tone to be generated
+    /// This will then save the tone to the AudioClips folder
     /// </summary>
     public void SaveFailAudio()
     {
@@ -159,7 +162,8 @@ public class TinkerAudio : MonoBehaviour
 
 
     /// <summary>
-    /// sets the 
+    /// Calls the GetWaveType function and sets the parameters up for a success tone to be generated
+    /// This will then save the tone to the AudioClips folder
     /// </summary>
     public void SaveSuccessAudio()
     {
