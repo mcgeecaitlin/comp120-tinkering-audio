@@ -2,6 +2,11 @@
 using UnityEngine.UI;
 using TMPro;
 
+//------------------------------------------------
+// <copyright file = "TinkerAudio.cs">
+// MIT Licence Copyright (c) 2019.
+// </copyright>
+// <author> Callum Metcalfe </author>
 public class TinkerAudio : MonoBehaviour
 {
     private AudioSource audioSource;
