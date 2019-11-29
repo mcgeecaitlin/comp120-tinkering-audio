@@ -87,8 +87,6 @@ public class TinkerAudio : MonoBehaviour
     private void Update()
     {
         Debug.Log(waveOptions.value);
-
-        // Checks for updates to the frequency sliders
         SliderUpdater();
     }
 
@@ -133,86 +131,76 @@ public class TinkerAudio : MonoBehaviour
 
 
     /// <summary>
-    /// This calls the function CreateFailToneAudioClip, giving it the required values that are needed to generate the sound
-    /// After the audioclip has been generated it will then play the audio clip that was preduced
-    /// when the fail button is clicked
+    /// 
     /// </summary>
     public void PlayFailTone()
     {
-        if (waveOptions.value == 0)
-        {
-            failAudioClip = CreateSineWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
-        }
-        if (waveOptions.value == 1)
-        {
-            failAudioClip = CreateSquareWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
-        }
-        if (waveOptions.value == 2)
-        {
-            failAudioClip = CreateTriangleWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
-        }
+        failAudioClip = GetWaveType(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
         audioSource.PlayOneShot(failAudioClip);
     }
 
     /// <summary>
-    /// This calls the function CreateSuccessToneAudioClip, giving it the required values that are needed to generate the sound
-    /// After the audioclip has been generated it will then play the audio clip that was preduced
-    /// when the success button is clicked
+    /// 
     /// </summary>
     public void PlaySuccessTone()
     {
-        if (waveOptions.value == 0)
-        {
-            successAudioClip = CreateSineWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
-        }
-        if (waveOptions.value == 1)
-        {
-            successAudioClip = CreateSquareWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
-        }
-        if (waveOptions.value == 2)
-        {
-            successAudioClip = CreateTriangleWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
-        }
+        successAudioClip = GetWaveType(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
         audioSource.PlayOneShot(successAudioClip);
     }
 
-    public void StopAudio()
-    {
-        audioSource.Stop();
-    }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public void SaveFailAudio()
     {
-        if (waveOptions.value == 0)
-        {
-            failAudioClip = CreateSineWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
-        }
-        if (waveOptions.value == 1)
-        {
-            failAudioClip = CreateSquareWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
-        }
-        if (waveOptions.value == 2)
-        {
-            failAudioClip = CreateTriangleWaveToneAudioClip(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
-        }
+        failAudioClip = GetWaveType(failCurrentFrequency, failCurrentSampleDurationSecs, failCurrentSampleRate);
         SaveWavUtil.Save("Fail Audio Clip", failAudioClip);
     }
 
+
+    /// <summary>
+    /// sets the 
+    /// </summary>
     public void SaveSuccessAudio()
     {
+        successAudioClip = GetWaveType(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate); 
+        SaveWavUtil.Save("Success Audio Clip", successAudioClip);
+    }
+
+    /// <summary>
+    /// Calls the corrrect wave function depending on the option selected in the drop down menu
+    /// </summary>
+    /// <param name="frequency">
+    /// Used to get the correct frequency depending on whether the success or fail tone is being generated
+    /// </param>
+    /// <param name="sampleDurationSecs">
+    /// Used to get the correct duration depending on whether the success or fail tone is being generated
+    /// </param>
+    /// <param name="sampleRate">
+    /// Used to get the correct sample rate depending on whether the success or fail tone is being generated
+    /// </param>
+    /// <returns></returns>
+    private AudioClip GetWaveType(int frequency, float sampleDurationSecs, int sampleRate)
+    {
+        AudioClip newAudioClip;
         if (waveOptions.value == 0)
         {
-            successAudioClip = CreateSineWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+            newAudioClip = CreateSineWaveToneAudioClip(frequency, sampleDurationSecs, sampleRate);
+            return newAudioClip;
         }
+
         if (waveOptions.value == 1)
         {
-            successAudioClip = CreateSquareWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+            newAudioClip = CreateSquareWaveToneAudioClip(frequency, sampleDurationSecs, sampleRate);
+            return newAudioClip;
         }
         if (waveOptions.value == 2)
-        {
-            successAudioClip = CreateTriangleWaveToneAudioClip(successCurrentFreqency, successCurrentSampleDurationSecs, successCurrectSampleRate);
+        {   
+            newAudioClip = CreateTriangleWaveToneAudioClip(frequency, sampleDurationSecs, sampleRate);
+            return newAudioClip;
         }
-        SaveWavUtil.Save("Success Audio Clip", successAudioClip);
+
+        return null;
     }
 
     /// <summary>
@@ -250,7 +238,7 @@ public class TinkerAudio : MonoBehaviour
     }
 
     /// <summary>
-    /// Should generate a square wave. However, it doesnt appear to work
+    /// Generates a Square wave which will play if the user has selected it within the dropdown menu
     /// </summary>
     /// <param name="frequency"></param>
     /// <param name="duration"></param>
@@ -289,7 +277,7 @@ public class TinkerAudio : MonoBehaviour
     }
 
     /// <summary>
-    /// Generates a Triangle wave
+    /// Generates a Triangle wave which will play if the user has selected it within the dropdown menu
     /// </summary>
     /// <param name="frequency"></param>
     /// <param name="duration"></param>
@@ -312,22 +300,6 @@ public class TinkerAudio : MonoBehaviour
 
         audioClip.SetData(samples, 0);
         return audioClip;
-
-        /// <summary>
-        /// Generates a sound from a sine wave by using different values
-        /// </summary>
-        /// <param name="frequency">
-        /// used to set the frequency of the sound played
-        /// </param>
-        /// <param name="duration">
-        /// used to set the duation of the sound played
-        /// </param>
-        /// <param name="sampleRate">
-        /// used to set the sample rate of the sound played
-        /// </param>
-        /// <returns>
-        /// The audio clip to be used for the success button
-        /// </returns>
 
     }
 }
