@@ -4,13 +4,6 @@ using System.Linq; // Helper utility - https://docs.microsoft.com/en-us/dotnet/c
 
 public class MelodyGenerator : MonoBehaviour
 {
-    /* Don't think I need these right now...
-    public double frequency = 440.0; // The frequency in Hertz if the tone that the oscillator will produce.
-    private double increment; // The amount of distance the wave will be moving in each frame.
-    private double phase; // Actual location on the wave.
-    private double sampling_frequency = 48000.0; // The default frequency of unity's audio engine.
-    public float gain; // The power or volume of the oscillator.
-    */
 
     public int tuneLength = 16;
 
@@ -69,4 +62,6 @@ public class MelodyGenerator : MonoBehaviour
 
         return frequencyValues;
     }
+
+    // Generate a melody that runs through the notes in ascending order.
 }
