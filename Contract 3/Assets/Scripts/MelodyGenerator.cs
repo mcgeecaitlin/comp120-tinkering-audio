@@ -72,5 +72,12 @@ public class MelodyGenerator : MonoBehaviour
 
         return frequencyValues;
     }
+    /// <summary>
+    /// Generate a melody by ascending through the notes stored in the dictionary.
+    /// </summary>
+    //private void IterateDictionary()
+    //{
+    //    foreach (var element in frequencies) ;
+    //}
 
 }
