@@ -11,7 +11,8 @@ using System.Linq; // Helper utility
 public class MelodyGenerator : MonoBehaviour
 {
 
-    public int tuneLength = 16;
+    public int tuneLength = 16; // Length of the melody played
+
 
     private AudioSource audioSource;
     private TinkeringAudio audioTinkerer;
@@ -71,7 +72,5 @@ public class MelodyGenerator : MonoBehaviour
 
         return frequencyValues;
     }
-
-    // Generate a melody that runs through the notes in ascending order.
 
 }

@@ -54,7 +54,8 @@ public class TinkeringAudio : MonoBehaviour
         ChangeWaveType();
     }
     /// <summary>
-    /// Receives player input and plays a sound based on the input. Switches between sine waves and square waves.
+    /// Receives player input from the keyboard and plays a sound based on the input. 
+    /// Switches between sine waves and square waves.
     /// </summary>
     private void ChangeWaveType()
     {
