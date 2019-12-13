@@ -4,7 +4,7 @@
 
 You are tasked with creating a tool which procedurally generates and exports a music track for the game. It will be important to research some rules to see which tones and samples go well with each other to design the synthesiser. An ability to draw upon both tones and samples is expected! The style of music is up to you as the developer, but should ﬁt the creativity card brief and the style of your particular game, but is anticipated to be somewhat simplistic and retro.
 ### How to Use:
-
+1. To change the type of sound waves, tap 1 or 2 on the keyboard.
 
 # Contract 4 - User Interface Audio (Callum Metcalfe)
 You need to develop a tool to generate audio for the user interface. These

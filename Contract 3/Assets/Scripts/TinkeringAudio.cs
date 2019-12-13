@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+// Link to github: https://github.com/mcgeecaitlin/comp120-tinkering-audio
 public class TinkeringAudio : MonoBehaviour
 {
     [SerializeField]

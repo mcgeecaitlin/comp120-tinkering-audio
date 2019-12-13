@@ -2,6 +2,12 @@
 using UnityEngine;
 using System.Linq; // Helper utility
 
+// <copyright file = "MelodyGenerator.cs">
+// MIT Licence Copyright (c) 2019.
+// </copyright>
+// <author> Caitlin McGee </author>
+
+// Link to github: https://github.com/mcgeecaitlin/comp120-tinkering-audio
 public class MelodyGenerator : MonoBehaviour
 {
 
@@ -51,7 +57,10 @@ public class MelodyGenerator : MonoBehaviour
         }
     }
 
-    // Randomly generating a melody.
+    /// <summary>
+    /// Randomly generate a melody using the notes stored within the dictionary.
+    /// </summary>
+
     private int[] GetRandomFrequencies(int size)
     {
         int[] frequencyValues = new int[size];
@@ -64,4 +73,5 @@ public class MelodyGenerator : MonoBehaviour
     }
 
     // Generate a melody that runs through the notes in ascending order.
+
 }
