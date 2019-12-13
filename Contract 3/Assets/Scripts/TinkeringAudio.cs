@@ -2,17 +2,14 @@
 
 public class TinkeringAudio : MonoBehaviour
 {
+    [SerializeField]
+    private int frequency;
+    private AudioClip currentClip;
+    private AudioSource audioSource;
 
-    private void Update()
+    private void Start()
     {
-
-    
-    
-    }
-
-    private void ChangeWaveType()
-    {
-        if (Input.GetKeyDown(KeyCode.))
+        audioSource = this.GetComponent<AudioSource>();
     }
 
     // (freq, dur(optional))
@@ -33,7 +30,7 @@ public class TinkeringAudio : MonoBehaviour
         return audioClip;
     }
     /// <summary>
-    /// Converts any audio clip waves into a square wave when the user taps one on the keyboard.
+    /// Converts any audio clip waves into a square wave.
     /// </summary>
     /// <param name="clip"></param>
     /// <returns> Returns an audio clip that is now a square wave.</returns>
@@ -50,5 +47,28 @@ public class TinkeringAudio : MonoBehaviour
 
         clip.SetData(samples, 0);
         return clip;
+    }
+
+    private void Update()
+    {
+        ChangeWaveType();
+    }
+    /// <summary>
+    /// Receives player input and plays a sound based on the input. Switches between sine waves and square waves.
+    /// </summary>
+    private void ChangeWaveType()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            currentClip = CreateToneAudioClip(frequency, 1);
+            audioSource.PlayOneShot(currentClip);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            currentClip = CreateToneAudioClip(frequency, 1);
+            currentClip = ConvertToSquare(currentClip);
+            audioSource.PlayOneShot(currentClip);
+        }
     }
 }

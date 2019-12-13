@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Linq; // Helper utility - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/
+using System.Linq; // Helper utility
 
 public class MelodyGenerator : MonoBehaviour
 {
